@@ -1,10 +1,10 @@
 :root {
-  --terminal-bg: #000000;
-  --terminal-text: #00ff00;
+  --terminal-bg: #131921;
+  --terminal-text: #FF9900;
   --terminal-border: #444444;
   --terminal-header-bg: #333333;
-  --terminal-input: #00ff00;
-  --terminal-prompt: #00ff00;
+  --terminal-input: #ffffff;
+  --terminal-prompt: #FF9900;
 }
 
 body {
@@ -14,8 +14,8 @@ body {
 }
 
 .terminal-container {
-  width: 600px;
-  height: 500px;
+  width: 100vw;
+  height: 100vh;
   margin: auto;
   background-color: var(--terminal-bg);
   border: 2px solid var(--terminal-border);
@@ -30,6 +30,7 @@ body {
   border-bottom: 2px solid var(--terminal-border);
   color: var(--terminal-text);
   font-weight: bold;
+  font-size: larger;
   text-align: center;
 }
 
@@ -44,7 +45,7 @@ body {
 }
 
 .terminal-prompt {
-  color: var(--terminal-prompt);
+  color: var(--terminal-input);
 }
 
 .terminal-text {

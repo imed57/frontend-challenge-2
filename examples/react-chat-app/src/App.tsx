@@ -54,7 +54,7 @@ const TerminalChat = () => {
     <section id="terminal-chat">
       <div className="terminal-container">
         <div className="terminal-header">
-          <span className="terminal-title">Linux Terminal</span>
+          <span className="terminal-title">AWS Terminal</span>
         </div>
 
         <div
