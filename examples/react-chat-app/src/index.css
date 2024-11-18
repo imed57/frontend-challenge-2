@@ -1,141 +1,75 @@
 :root {
-  --light: rgb(255, 255, 255);
-  --dark: rgb(37, 44, 54);
-  --dark-blue: rgb(44, 47, 64);
-  --dark-blue-2: rgb(65, 71, 94);
-  --orange: rgb(207, 131, 5);
-
-  --chat-border-radius: 20px;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  --terminal-bg: #000000;
+  --terminal-text: #00ff00;
+  --terminal-border: #444444;
+  --terminal-header-bg: #333333;
+  --terminal-input: #00ff00;
+  --terminal-prompt: #00ff00;
 }
 
 body {
-  background-color: transparent;
-  font-family: "Montserrat", BlinkMacSystemFont, -apple-system, "Segoe UI",
-    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  color: var(--light);
-  padding: 0;
-  margin: 0;
+  background-color: var(--terminal-bg);
+  font-family: "Courier New", Courier, monospace;
+  color: var(--terminal-text);
 }
 
-#root {
-  height: 100vh;
-  background-color: var(--dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-}
-
-.chat-container {
-  width: 425px;
-  height: calc(100vh - 100px);
+.terminal-container {
+  width: 600px;
+  height: 500px;
   margin: auto;
-}
-
-.landbot-chat {
-  height: 100%;
+  background-color: var(--terminal-bg);
+  border: 2px solid var(--terminal-border);
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  border-radius: var(--chat-border-radius);
-  background-color: var(--dark-blue);
 }
 
-.landbot-header {
-  padding: 15px 30px;
-  background-color: var(--dark-blue-2);
-  border-top-left-radius: var(--chat-border-radius);
-  border-top-right-radius: var(--chat-border-radius);
+.terminal-header {
+  background-color: var(--terminal-header-bg);
+  padding: 10px;
+  border-bottom: 2px solid var(--terminal-border);
+  color: var(--terminal-text);
+  font-weight: bold;
+  text-align: center;
 }
 
-.landbot-messages-container {
+.terminal-messages-container {
   flex: 1;
-  overflow: auto;
-  padding: 36px 20px;
+  padding: 10px;
+  overflow-y: auto;
 }
 
-.landbot-message {
+.terminal-message {
+  margin-bottom: 5px;
+}
+
+.terminal-prompt {
+  color: var(--terminal-prompt);
+}
+
+.terminal-text {
+  color: var(--terminal-text);
+}
+
+.terminal-input-container {
   display: flex;
-  margin-top: 0;
-  padding-top: 0;
+  align-items: center;
+  padding: 10px;
+  border-top: 2px solid var(--terminal-border);
 }
 
-.landbot-message + .landbot-message {
-  margin-top: 12px;
-  padding-top: 0;
-  border-top: 0;
-}
-
-.landbot-message[data-author="bot"] + .landbot-message[data-author="bot"],
-.landbot-message[data-author="user"] + .landbot-message[data-author="user"] {
-  margin-top: 3px;
-}
-
-.landbot-message[data-author="user"] {
-  justify-content: flex-end;
-}
-
-.landbot-message-avatar {
-  display: none;
-}
-
-.landbot-message-content {
-  color: var(--light);
-  padding: 12px 16px;
-  border-radius: 18px;
-  display: inline-block;
-  flex-grow: 0;
-}
-
-.landbot-message[data-author="bot"] .landbot-message-content {
-  background-color: var(--dark-blue-2);
-  border-bottom-left-radius: 2px;
-}
-
-.landbot-message[data-author="user"] .landbot-message-content {
-  background-color: var(--orange);
-  border-bottom-right-radius: 2px;
-}
-
-.landbot-input-container {
-  position: relative;
-  background-color: var(--dark-blue-2);
-  border-bottom-left-radius: var(--chat-border-radius);
-  border-bottom-right-radius: var(--chat-border-radius);
-}
-
-.landbot-input {
-  width: 100%;
-  color: var(--light);
-  padding: 20px 55px 20px 25px;
+.terminal-input {
+  flex: 1;
+  background-color: transparent;
+  color: var(--terminal-input);
+  border: none;
+  outline: none;
   font-size: 16px;
-  background-color: transparent;
-  border: 0;
-  outline: 0;
+  font-family: inherit;
+  caret-color: var(--terminal-input);
 }
 
-.landbot-input-send {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--orange);
-  background-color: transparent;
-  border: 0;
-}
-
-.landbot-input-send:hover {
-  color: var(--orange);
-}
-
-.button[disabled] {
-  background-color: transparent;
-  border-color: transparent;
+.terminal-input::placeholder {
+  color: var(--terminal-input);
+  opacity: 0.6;
 }

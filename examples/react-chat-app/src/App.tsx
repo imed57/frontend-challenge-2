@@ -10,14 +10,14 @@ interface ChatMessage {
   type: string;
 }
 
-export const App = () => {
+const TerminalChat = () => {
   const [messages, setMessages] = useState<Record<string, ChatMessage>>({});
   const [input, setInput] = useState("");
   const [config, setConfig] = useState(null);
   const core = useRef<Core | null>(null);
 
   useEffect(() => {
-    fetch("https://chats.landbot.io/u/H-441480-B0Q96FP58V53BJ2J/index.json")
+    fetch("https://landbot.online/v3/H-2684100-OBIBIYP4D4991XSV/index.json")
       .then((res) => res.json())
       .then(setConfig);
   }, []);
@@ -26,13 +26,10 @@ export const App = () => {
     if (config) {
       core.current = new Core(config);
       core.current.pipelines.$readableSequence.subscribe((data: Message) => {
-        setMessages(
-          (messages) =>
-            ({
-              ...messages,
-              [data.key]: parseMessage(data),
-            } as Record<string, ChatMessage>)
-        );
+        setMessages((messages) => ({
+          ...messages,
+          [data.key]: parseMessage(data),
+        }));
       });
 
       core.current.init().then((data) => {
@@ -42,7 +39,7 @@ export const App = () => {
   }, [config]);
 
   useEffect(() => {
-    const container = document.getElementById("landbot-messages-container");
+    const container = document.getElementById("terminal-messages-container");
     scrollBottom(container);
   }, [messages]);
 
@@ -54,73 +51,48 @@ export const App = () => {
   }, [input]);
 
   return (
-    <section id="landbot-app">
-      <div className="chat-container">
-        <div className="landbot-chat">
-          <div className="landbot-header">
-            <h1 className="subtitle">Landbot core example</h1>
-          </div>
+    <section id="terminal-chat">
+      <div className="terminal-container">
+        <div className="terminal-header">
+          <span className="terminal-title">Linux Terminal</span>
+        </div>
 
-          <div
-            className="landbot-messages-container"
-            id="landbot-messages-container"
-          >
-            {Object.values(messages)
-              .filter(messagesFilter)
-              .sort((a, b) => a.timestamp - b.timestamp)
-              .map((message) => (
-                <article
-                  className="media landbot-message"
-                  data-author={message.author}
-                  key={message.key}
-                >
-                  <figure className="media-left landbot-message-avatar">
-                    <p className="image is-64x64">
-                      <img
-                        alt=""
-                        className="is-rounded"
-                        src="http://i.pravatar.cc/100"
-                      />
-                    </p>
-                  </figure>
-                  <div className="media-content landbot-message-content">
-                    <div className="content">
-                      <p>{message.text}</p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-          </div>
-
-          <div className="landbot-input-container">
-            <div className="field">
-              <div className="control">
-                <input
-                  className="landbot-input"
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyUp={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      submit();
-                    }
-                  }}
-                  placeholder="Type here..."
-                  type="text"
-                  value={input}
-                />
-                <button
-                  className="button landbot-input-send"
-                  disabled={input === ""}
-                  onClick={submit}
-                  type="button"
-                >
-                  <span className="icon is-large" style={{ fontSize: 25 }}>
-                    ➤
-                  </span>
-                </button>
+        <div
+          className="terminal-messages-container"
+          id="terminal-messages-container"
+        >
+          {Object.values(messages)
+            .filter(messagesFilter)
+            .sort((a, b) => a.timestamp - b.timestamp)
+            .map((message) => (
+              <div
+                className="terminal-message"
+                data-author={message.author}
+                key={message.key}
+              >
+                <span className="terminal-prompt">
+                  {message.author === "user" ? "$ " : "[bot] "}
+                </span>
+                <span className="terminal-text">{message.text}</span>
               </div>
-            </div>
-          </div>
+            ))}
+        </div>
+
+        <div className="terminal-input-container">
+          <span className="terminal-prompt">$ </span>
+          <input
+            className="terminal-input"
+            onChange={(e) => setInput(e.target.value)}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                submit();
+              }
+            }}
+            placeholder="Type your command..."
+            type="text"
+            value={input}
+          />
         </div>
       </div>
     </section>
@@ -130,7 +102,7 @@ export const App = () => {
 function parseMessage(data: Message): ChatMessage {
   return {
     key: data.key,
-    text: data.title || data.message,
+    text: data.title || data.message || data.rich_text,
     author: data.samurai !== undefined ? "bot" : "user",
     timestamp: data.timestamp,
     type: data.type,
@@ -147,7 +119,6 @@ function parseMessages(
 }
 
 function messagesFilter(data: ChatMessage) {
-  /** Support for basic message types */
   return ["text", "dialog"].includes(data.type);
 }
 
@@ -159,3 +130,5 @@ function scrollBottom(container: HTMLElement | null) {
     });
   }
 }
+
+export default TerminalChat;
